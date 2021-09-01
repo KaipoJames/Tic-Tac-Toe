@@ -11,8 +11,8 @@ let boxesArray;
 let currentTurn;
 let player1Selections;
 let player2Selections;
-let player1wins;
-let player2wins;
+let player1wins = 0;
+let player2wins = 0;
 let noWinner;
 const winningConditions = [
     [0, 1, 2],
@@ -38,8 +38,6 @@ const game = {
         currentTurn = "player1";
         player1Selections = [];
         player2Selections = [];
-        player1wins = 0;
-        player2wins = 0;
         turn.innerHTML = "Player 1 Starts";
         button.innerHTML = "";
         button.classList = "";
@@ -61,33 +59,35 @@ const game = {
         const boxes = document.querySelectorAll(".box");
         for (const box of boxes) {
             box.addEventListener("click", () => {
-                let whoseTurn = this.getCurrentTurn();
-                const boxIndex = boxesArray.indexOf(box);
-                if (whoseTurn === "player1") {
-                    if (!tiles[boxIndex].isMarked) {
-                        this.drawX(box);
-                        tiles[boxIndex].setElement("x");
-                        player1Selections.push(parseInt(boxIndex));
-                        player1Selections.sort(function(a, b) { return a - b});
-                        turn.innerHTML = "Player 2's Turn";
-                        if (player1Selections.length >= 3) {
-                            this.checkForWinner(player1Selections);
+                if (noWinner === true) {
+                    let whoseTurn = this.getCurrentTurn();
+                    const boxIndex = boxesArray.indexOf(box);
+                    if (whoseTurn === "player1") {
+                        if (!tiles[boxIndex].isMarked) {
+                            this.drawX(box);
+                            tiles[boxIndex].setElement("x");
+                            player1Selections.push(parseInt(boxIndex));
+                            player1Selections.sort(function(a, b) { return a - b});
+                            turn.innerHTML = "Player 2's Turn";
+                            if (player1Selections.length >= 3) {
+                                this.checkForWinner(player1Selections);
+                            }
+                            currentTurn = "player2";
+                            this.checkForEndGame();
                         }
-                        currentTurn = "player2";
-                        this.checkForEndGame();
-                    }
-                } else {
-                    if (!tiles[boxIndex].isMarked) {
-                        this.drawO(box);
-                        tiles[boxIndex].setElement("o");
-                        player2Selections.push(parseInt(boxIndex));
-                        player2Selections.sort(function(a, b) { return a - b});
-                        turn.innerHTML = "Player 1's Turn";
-                        if (player2Selections.length >= 3) {
-                            this.checkForWinner(player2Selections);
+                    } else {
+                        if (!tiles[boxIndex].isMarked) {
+                            this.drawO(box);
+                            tiles[boxIndex].setElement("o");
+                            player2Selections.push(parseInt(boxIndex));
+                            player2Selections.sort(function(a, b) { return a - b});
+                            turn.innerHTML = "Player 1's Turn";
+                            if (player2Selections.length >= 3) {
+                                this.checkForWinner(player2Selections);
+                            }
+                            currentTurn = "player1";
+                            this.checkForEndGame();
                         }
-                        currentTurn = "player1";
-                        this.checkForEndGame();
                     }
                 }
             });
@@ -114,11 +114,13 @@ const game = {
         if (winner === "player1") {
             noWinner = false;
             player1wins++;
+            console.log("Player1 Wins: " + player1wins);
             player1WinsText.innerHTML = "Player 1: " + player1wins;
             turn.innerHTML = winner + " Wins!";
         } else if (winner === "player2") {
             noWinner = false;
             player2wins++;
+            console.log("Player2 Wins: " + player2wins);
             player2WinsText.innerHTML = "Player 2: " + player2wins;
             turn.innerHTML = winner + " Wins!";
         } else {
