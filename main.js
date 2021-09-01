@@ -97,6 +97,7 @@ const game = {
         const x = document.createElement("div");
         x.innerHTML = "X";
         x.classList.add("x");
+        x.classList.add("shape");
         element.appendChild(x);
         markedTiles++;
     },
@@ -104,6 +105,7 @@ const game = {
         const o = document.createElement("div");
         o.innerHTML = "O";
         o.classList.add("o");
+        o.classList.add("shape");
         element.appendChild(o);
         markedTiles++;
     },

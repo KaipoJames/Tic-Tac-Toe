@@ -26,6 +26,7 @@ h1, h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .box:hover {
     cursor: pointer;
@@ -57,6 +58,12 @@ h1, h2 {
     top: 2rem;
 }
 
+.shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 /* X's and O's */
 .x {
   background: #f90;
